@@ -1,0 +1,42 @@
+From 8bba03307093862b99a254de3962a3140afa4fcb Mon Sep 17 00:00:00 2001
+From: tanxiaofei <tanxiaofei@huawei.com>
+Date: Tue, 19 Dec 2017 14:58:56 +0800
+Subject: [PATCH 2/2] fix the issue of failing to print log
+
+Signed-off-by: Xiaofei Tan <tanxiaofei@huawei.com>
+---
+ src/ledmon.c | 4 ++--
+ src/utils.c  | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/ledmon.c b/src/ledmon.c
+index d3c6536..0e0de4f 100644
+--- a/src/ledmon.c
++++ b/src/ledmon.c
+@@ -809,8 +809,8 @@ int main(int argc, char *argv[])
+ 		log_debug("main(): setsid() failed (errno=%d).", errno);
+ 		exit(EXIT_FAILURE);
+ 	}
+-	for (i = getdtablesize() - 1; i >= 0; --i)
+-		close(i);
++	//for (i = getdtablesize() - 1; i >= 0; --i)
++	//	close(i);
+ 	int t = open("/dev/null", O_RDWR);
+ 	dup(t);
+ 	dup(t);
+diff --git a/src/utils.c b/src/utils.c
+index 3418c95..2f0a2ed 100644
+--- a/src/utils.c
++++ b/src/utils.c
+@@ -60,7 +60,7 @@
+ 
+ /**
+  */
+-enum verbose_level verbose = VERB_WARN;
++enum verbose_level verbose = VERB_ALL;
+ 
+ /**
+  * Name of the executable. It is the last section of invocation path.
+-- 
+1.9.1
+
